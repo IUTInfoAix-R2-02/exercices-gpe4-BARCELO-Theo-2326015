@@ -48,9 +48,16 @@ public class Palette extends Application {
         texteDuHaut.textProperty()
         .bind(
             Bindings.when(pasEncoreDeClic)
-            .then("Pas encore de couleur")
+            .then("Cliquez sur un bouton")
             .otherwise(Bindings.concat(couleurActuelle, " choisi ", nbFois.asString(), " fois"))
         );
+        texteDuBas.textProperty()
+            .bind(
+                Bindings.when(pasEncoreDeClic)
+                        .then("")
+                        .otherwise(Bindings.concat("Le ", couleurActuelle, " est une jolie couleur !"))
+            );
+        texteDuBas.styleProperty().bind(Bindings.concat("-fx-text-fill: ", couleurPanneau));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package fr.amu.iut.exercice1;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,6 +35,23 @@ public class Palette extends Application {
 
     private Label texteDuBas;
 
+    private IntegerProperty nbFois = new SimpleIntegerProperty();
+    private StringProperty message = new SimpleStringProperty();
+    private StringProperty couleurPanneau = new SimpleStringProperty("#000000");
+    private BooleanProperty pasEncoreDeClic = new SimpleBooleanProperty(false);
+    private StringProperty couleurActuelle = new SimpleStringProperty();
+
+
+    private void createBindings() {
+        panneau.styleProperty().bind(Bindings.concat("-fx-background-color: ", couleurPanneau));
+        pasEncoreDeClic.bind(Bindings.equal(nbFois, 0));
+        texteDuHaut.textProperty()
+        .bind(
+            Bindings.when(pasEncoreDeClic)
+            .then("Pas encore de couleur")
+            .otherwise(Bindings.concat(couleurActuelle, " choisi ", nbFois.asString(), " fois"))
+        );
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -58,6 +77,26 @@ public class Palette extends Application {
         bleu = new Button("Bleu");
 
         /* VOTRE CODE ICI */
+        vert.setOnAction(event -> {
+            couleurActuelle.set("Vert");
+            nbFois.set(++nbVert);
+            message.set(vert.getText());
+            couleurPanneau.set("green");
+        });
+        rouge.setOnAction(event -> {
+            couleurActuelle.set("Rouge");
+            nbFois.set(++nbRouge);
+            message.set(rouge.getText());
+            couleurPanneau.set("red");
+        });
+        bleu.setOnAction(event -> {
+            couleurActuelle.set("Bleu");
+            nbFois.set(++nbBleu);
+            message.set(bleu.getText());
+            couleurPanneau.set("blue");
+        });
+
+        createBindings();
 
         boutons.getChildren().addAll(vert, rouge, bleu);
 

@@ -65,7 +65,7 @@ public class Palette extends Application {
             sourceOfEvent.setNbClics(sourceOfEvent.getNbClics()+1);
         };
 
-        ChangeListener<Number> nbClicksListener = new ChangeListener<Number>() {
+        ChangeListener<Number> nbClicsListener = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 CustomButton btn = sourceOfEvent;
@@ -76,9 +76,9 @@ public class Palette extends Application {
             }
         };
 
-        vert.nbClicsProperty().addListener(nbClicksListener);
-        rouge.nbClicsProperty().addListener(nbClicksListener);
-        bleu.nbClicsProperty().addListener(nbClicksListener);
+        vert.nbClicsProperty().addListener(nbClicsListener);
+        rouge.nbClicsProperty().addListener(nbClicsListener);
+        bleu.nbClicsProperty().addListener(nbClicsListener);
 
         vert.setOnAction(gestionnaireEvenement);
         rouge.setOnAction(gestionnaireEvenement);

@@ -1,5 +1,7 @@
 package fr.amu.iut.exercice14;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,11 +20,45 @@ public class MainPersonnes {
 
     public static void main(String[] args) {
 
-        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList());
+        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList(personne -> new Observable[] {personne.ageProperty(), personne.villeDeNaissanceProperty()}));
         ageMoyen = new SimpleIntegerProperty(0);
+        nbParisiens = new SimpleIntegerProperty(0);
+
+        calculAgeMoyen = new IntegerBinding() {
+            {
+                this.bind(lesPersonnes);
+            }
+
+            @Override
+            protected int computeValue() {
+                int ageMoyen = 0;
+                for (int i = 0; i < lesPersonnes.size(); ++i) {
+                    ageMoyen+= lesPersonnes.get(i).getAge();
+                }
+                if(lesPersonnes.size() != 0) return ageMoyen / lesPersonnes.size();
+                else return ageMoyen;
+            }
+        };
+        ageMoyen.bind(calculAgeMoyen);
+
+        calculnbParisiens = new IntegerBinding() {
+            {
+                this.bind(lesPersonnes);
+            }
+
+            @Override
+            protected int computeValue() {
+                int nbParis = 0;
+                for (int i = 0; i < lesPersonnes.size(); ++i) {
+                    if(lesPersonnes.get(i).getVilleDeNaissance() == "Paris") ++nbParis;
+                }
+                return nbParis;
+            }
+        };
+        nbParisiens.bind(calculnbParisiens);
 
         question1();
-//        question2();
+        question2();
     }
 
     public static void question1() {

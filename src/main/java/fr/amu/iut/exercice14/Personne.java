@@ -21,7 +21,23 @@ public class Personne {
         this.age.setValue(age);
     }
 
+    public int getAge() {
+        return this.age.get();
+    }
+
     public void setVilleDeNaissance(String ville) {
         villeDeNaissance.setValue(ville);
+    }
+
+    public String getVilleDeNaissance() {
+        return villeDeNaissance.get();
+    }
+
+    public StringProperty villeDeNaissanceProperty() {
+        return villeDeNaissance;
+    }
+
+    public IntegerProperty ageProperty() {
+        return age;
     }
 }
